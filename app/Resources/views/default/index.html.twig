@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome!</title>
+    <link rel="stylesheet" href="{{ asset('assets/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/Shared/main.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+</head>
+<body ng-app="OrderTableApp">
+    <div ng-view>
+
+    </div>
+    <script src="{{ asset('assets/angular.min.js') }}"></script>
+    <script src="{{ asset('assets/angular-route.min.js') }}"></script>
+    <script src="{{ asset('assets/jquery.min.js') }}"></script>
+    <script src="{{ asset('assets/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('scripts/index.js') }}"></script>
+</body>
+</html>

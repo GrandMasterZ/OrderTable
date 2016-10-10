@@ -2,7 +2,7 @@
  * Created by root on 9/17/16.
  */
 angular.module('OrderTableApp')
-    .directive('restaurantInfo', restaurantInfo)
+    .directive('restaurantInfo', restaurantInfo);
 
 function restaurantInfo()
 {

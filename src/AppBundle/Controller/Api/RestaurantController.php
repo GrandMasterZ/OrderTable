@@ -9,6 +9,7 @@
 namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Restaurant;
+use AppBundle\Mapper\RestaurantMapper;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -61,14 +62,31 @@ class RestaurantController extends FOSRestController
     }
 
     /**
-     * @Rest\Put("/users/{userId}")
+     * @Rest\Get("/restaurants")
      */
-    public function putUsersByIdAction(Request $request)
+    public function getRestaurants(Request $request)
     {
-        $userId = $request->get('userId');
-        $data = ['putUsersByIdAction' => 'not implemented yet'];
-        $view = $this->view($data, Response::HTTP_INTERNAL_SERVER_ERROR);
-        return $view;
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Restaurant');
+
+        $restaurants = $repository->findAll();
+        $restaurantList = [];
+
+        foreach ($restaurants as $restaurant)
+        {
+            $mappedRestaurant = new RestaurantMapper();
+            $mappedRestaurant->address = $restaurant->getAddress();
+            $mappedRestaurant->description = $restaurant->getDescription();
+            $mappedRestaurant->id = $restaurant->getId();
+            $mappedRestaurant->ownerId = $restaurant->getOwnerId()->getId();
+            $mappedRestaurant->phone_number = $restaurant->getPhoneNumber();
+            $mappedRestaurant->title = $restaurant->getTitle();
+            $mappedRestaurant->working_hours = $restaurant->getWorkingHours();
+            $mappedRestaurant->ownerUsername = $restaurant->getOwnerId()->getName();
+
+            array_push($restaurantList, $mappedRestaurant);
+        }
+
+        return new JsonResponse($restaurantList);
     }
 
     /**

@@ -2,3 +2,24 @@
 {
     margin-top:80px;
 }
+
+body
+{
+    background: url('http://thescienceexplorer.com/sites/thescienceexplorer.com/files/blog/restaurant-939435_960_720.jpg') no-repeat center center fixed;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.formBackground
+{
+    background-color: #d7d7d7;
+    padding:40px;
+    border-radius: 15px;
+    background: -webkit-radial-gradient(#d7d7d7, #bbb8b6); /* Safari */
+    background: -o-radial-gradient(#d7d7d7, #bbb8b6); /* Opera 11.6 to 12.0 */
+    background: -moz-radial-gradient(#d7d7d7, #bbb8b6); /* Firefox 3.6 to 15 */
+    background: radial-gradient(#d7d7d7, #bbb8b6); /* Standard syntax */
+    box-shadow: 0 0 10px 10px #333333;
+}

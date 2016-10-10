@@ -18,7 +18,6 @@ class DefaultController extends Controller
         {
             return $this->render('default/index.html.twig');
         }
-        // replace this example code with whatever you need
 
         return $this->redirect("/login");
     }

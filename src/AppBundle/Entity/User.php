@@ -29,6 +29,17 @@ class User extends BaseUser
     private $name;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $surname;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Restaurant", inversedBy="ownerId")
+     * @ORM\JoinColumn(name="restaurant_id", referencedColumnName="id")
+     */
+    private $restaurants;
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -97,7 +108,7 @@ class User extends BaseUser
      */
     public function getRestaurant()
     {
-        return $this->restaurant;
+        return $this->restaurants;
     }
 
     /**
@@ -107,15 +118,4 @@ class User extends BaseUser
     {
         $this->restaurant = $restaurant;
     }
-
-    /**
-     * @ORM\Column(type="string")
-     */
-    private $surname;
-
-    /**
-     * @ORM\OneToOne(targetEntity="Restaurant")
-     * @ORM\JoinColumn(name="restaurant_id", referencedColumnName="id")
-     */
-    private $restaurant;
 }

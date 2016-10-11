@@ -6,8 +6,14 @@ angular.module('OrderTableApp')
 
 function restaurantInfo()
 {
+    var url = '/templates/Main/Restaurant.html';
+
+    scope: {
+        restaurant: '=restaurantData'
+    }
+
     var directive = {
-        templateUrl: 'templates/Main/Restaurant.html',
+        templateUrl: url,
     };
 
     return directive;

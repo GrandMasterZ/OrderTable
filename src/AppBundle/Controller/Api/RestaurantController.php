@@ -40,7 +40,7 @@ class RestaurantController extends FOSRestController
     }
 
     /**
-     * @Rest\Post("/postUsers")
+     * @Rest\Post("/postRestaurant")
      */
     public function postRestaurantAction(Request $request)
     {
@@ -87,6 +87,29 @@ class RestaurantController extends FOSRestController
         }
 
         return new JsonResponse($restaurantList);
+    }
+
+    /**
+     * @Rest\Get("/restaurant/{restaurantId}")
+     */
+    public function getRestaurantById(Request $request)
+    {
+        $restaurantId = $request->get('restaurantId');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Restaurant');
+
+        $restaurant = $repository->find($restaurantId);
+
+        $mappedRestaurant = new RestaurantMapper();
+        $mappedRestaurant->address = $restaurant->getAddress();
+        $mappedRestaurant->description = $restaurant->getDescription();
+        $mappedRestaurant->id = $restaurant->getId();
+        $mappedRestaurant->ownerId = $restaurant->getOwnerId()->getId();
+        $mappedRestaurant->phone_number = $restaurant->getPhoneNumber();
+        $mappedRestaurant->title = $restaurant->getTitle();
+        $mappedRestaurant->working_hours = $restaurant->getWorkingHours();
+        $mappedRestaurant->ownerUsername = $restaurant->getOwnerId()->getName();
+
+        return new JsonResponse($mappedRestaurant);
     }
 
     /**

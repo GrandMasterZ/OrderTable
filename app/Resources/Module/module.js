@@ -20,4 +20,8 @@ angular.module('OrderTableApp', ['ngRoute'])
                 controller: 'NewRestaurantController',
                 templateUrl: 'templates/NewRestaurant/Form.html'
             })
+            .when('/restaurant/:Id', {
+                controller: 'OneRestaurantController',
+                templateUrl: 'templates/OneRestaurant/OneRestaurant.html'
+            })
         });

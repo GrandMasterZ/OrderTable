@@ -2,7 +2,7 @@
  * Created by root on 9/18/16.
  */
 angular.module('OrderTableApp')
-    .directive('header', header)
+    .directive('header', header);
 
 function header()
 {

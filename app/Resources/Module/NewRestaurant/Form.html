@@ -6,34 +6,34 @@
             <form>
                 <div class="col-md-4 col-md-offset-4 form-group">
                     <label for="title">Restaurant title</label>
-                    <input id="title" class="form-control" type="text">
+                    <input ng-model="title" id="title" class="form-control" type="text">
                 </div>
                 <div class="col-md-4 col-md-offset-4 form-group">
                     <label for="phone">Phone Number</label>
-                    <input id="phone" class="form-control" type="text">
+                    <input ng-model="phone" id="phone" class="form-control" type="text">
                 </div>
                 <div class="col-md-4 col-md-offset-4 form-group">
                     <label for="email">Email</label>
-                    <input id="email" class="form-control" type="email">
+                    <input ng-model="email" id="email" class="form-control" type="email">
                 </div>
                 <div class="col-md-2 col-md-offset-4 form-group">
                     <label for="starts">Starts at</label>
-                    <input id="starts" class="form-control" type="number">
+                    <input ng-model="starts" id="starts" class="form-control" type="number">
                 </div>
                 <div class="col-md-2 form-group">
                     <label for="close">Closes at</label>
-                    <input id="close" class="form-control" type="number">
+                    <input ng-model="closes" id="close" class="form-control" type="number">
                 </div>
                 <div class="col-md-4 col-md-offset-4 form-group">
                     <label for="address">Address</label>
-                    <input id="address" class="form-control" type="text">
+                    <input ng-model="address" id="address" class="form-control" type="text">
                 </div>
                 <div class="col-md-4 col-md-offset-4 form-group">
                     <label for="Description">Description</label>
-                    <textarea class="form-control" rows="5" id="Description"></textarea>
+                    <textarea ng-model="description" class="form-control" rows="5" id="Description"></textarea>
                 </div>
                 <div class="col-md-4 col-md-offset-4 form-group">
-                    <button class="btn btn-primary btn-lg"> Submit </button>
+                    <button ng-click="submit()" class="btn btn-primary btn-lg"> Submit </button>
                 </div>
             </form>
         </div>

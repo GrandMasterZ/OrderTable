@@ -20,10 +20,11 @@ angular.module('OrderTableApp', ['ngRoute'])
                 controller: 'NewRestaurantController',
                 templateUrl: 'templates/NewRestaurant/Form.html'
             })
+            .when('/restaurant/:Id', {
+                controller: 'OneRestaurantController',
+                templateUrl: 'templates/OneRestaurant/OneRestaurant.html'
+            })
         });
-/**
- * Created by root on 9/17/16.
- */
 angular.module('OrderTableApp')
         .controller('MainController', MainController);
 
@@ -43,6 +44,7 @@ function MainController(restaurantData, $scope)
         return restaurantData.getAllRestaurants()
             .then(function(data) {
                 $scope.restaurants = data;
+                console.log($scope.restaurants);
                 return $scope.restaurants;
             });
     }
@@ -55,48 +57,23 @@ angular.module('OrderTableApp')
 
 function restaurantInfo()
 {
+    var url = '/templates/Main/Restaurant.html';
+
+    scope: {
+        restaurant: '=restaurantData'
+    }
+
     var directive = {
-        templateUrl: 'templates/Main/Restaurant.html',
+        templateUrl: url,
     };
 
     return directive;
-}
-angular
-    .module('OrderTableApp')
-    .factory('restaurantData', restaurantData);
-
-restaurantData.$inject = ['$http'];
-
-function restaurantData($http) {
-
-    var service = {
-        getAllRestaurants: getAllRestaurants
-    };
-
-    return service;
-
-    ////////////
-
-    function getAllRestaurants() {
-        return $http.get('/restaurants')
-            .then(getRestaurantsComplete)
-            .catch(getRestaurantsFailed);
-
-        function getRestaurantsComplete(response) {
-            return response.data.results;
-        }
-
-        function getRestaurantsFailed(error) {
-            console.log('XHR Failed for getAvengers.' + error.data);
-        }
-    }
-
 }
 /**
  * Created by root on 9/19/16.
  */
 angular.module('OrderTableApp')
-    .controller('PopularController', PopularController)
+    .controller('PopularController', PopularController);
 
 PopularController.$inject = ['$scope'];
 
@@ -108,7 +85,7 @@ function PopularController($scope)
  * Created by root on 9/19/16.
  */
 angular.module('OrderTableApp')
-    .directive('popularInfo', popularInfo)
+    .directive('popularInfo', popularInfo);
 
 function popularInfo()
 {
@@ -122,19 +99,51 @@ function popularInfo()
  * Created by root on 9/19/16.
  */
 angular.module('OrderTableApp')
-    .controller('NewRestaurantController', NewRestaurantController)
+    .controller('NewRestaurantController', NewRestaurantController);
 
-NewRestaurantController.$inject = ['$scope'];
+NewRestaurantController.$inject = ['$scope','restaurantData'];
 
-function NewRestaurantController($scope)
+function NewRestaurantController($scope, restaurantData)
 {
-    $scope.hello = 'Hello!';
+    $scope.submit = function()
+    {
+        restaurantData.addRestaurant($scope.title, $scope.phone, $scope.email, $scope.starts, $scope.closes, $scope.address, $scope.description)
+            .then(function(data){
+               console.log('sadasd');
+            });
+    }
+}
+angular.module('OrderTableApp')
+    .controller('OneRestaurantController', OneRestaurantController);
+
+OneRestaurantController.$inject = ['restaurantData', '$scope', '$routeParams'];
+
+function OneRestaurantController(restaurantData, $scope, $routeParams)
+{
+    console.log($routeParams.Id);
+
+    activate();
+
+    function activate() {
+        return getRestaurant().then(function() {
+            console.log('success')
+        });
+    }
+
+    function getRestaurant() {
+        return restaurantData.getRestaurantById($routeParams.Id)
+            .then(function(data) {
+                $scope.restaurant = data;
+                console.log($scope.restaurant);
+                return $scope.restaurant;
+            });
+    }
 }
 /**
  * Created by root on 9/18/16.
  */
 angular.module('OrderTableApp')
-    .directive('orderInfo', orderInfo)
+    .directive('orderInfo', orderInfo);
 
 function orderInfo()
 {
@@ -148,9 +157,9 @@ function orderInfo()
  * Created by root on 9/18/16.
  */
 angular.module('OrderTableApp')
-    .controller('OrdersController', OrdersController)
+    .controller('OrdersController', OrdersController);
 
-MainController.$inject = ['$scope'];
+OrdersController.$inject = ['$scope'];
 
 function OrdersController($scope)
 {
@@ -160,7 +169,7 @@ function OrdersController($scope)
  * Created by root on 9/18/16.
  */
 angular.module('OrderTableApp')
-    .directive('header', header)
+    .directive('header', header);
 
 function header()
 {
@@ -169,4 +178,75 @@ function header()
     };
 
     return directive;
+}
+angular.module('OrderTableApp')
+    .factory('restaurantData', restaurantData);
+
+restaurantData.$inject = ['$http'];
+
+function restaurantData($http) {
+
+    var service = {
+        getAllRestaurants: getAllRestaurants,
+        getRestaurantById: getRestaurantById,
+        addRestaurant: addRestaurant
+    };
+
+    return service;
+
+    ////////////
+
+    function getAllRestaurants() {
+        return $http.get('/restaurants')
+            .then(getRestaurantsComplete)
+            .catch(getRestaurantsFailed);
+
+        function getRestaurantsComplete(response) {
+            return response.data;
+        }
+
+        function getRestaurantsFailed(error) {
+            console.log('XHR Failed for getAvengers.' + error.data);
+        }
+    }
+
+    function getRestaurantById(id)
+    {
+        return $http.get('/restaurant/'+id)
+            .then(getRestaurantComplete)
+            .catch(getRestaurantFailed);
+
+        function getRestaurantComplete(response) {
+            return response.data;
+        }
+
+        function getRestaurantFailed(error) {
+            console.log('XHR Failed for getAvengers.' + error.data);
+        }
+    }
+
+    function addRestaurant(title, phone, email, starts, closes, address, description)
+    {
+        var postData = {
+            Title: title,
+            Description: description,
+            Phone: phone,
+            Email: email,
+            Address: address,
+            WorkingHours: starts+closes
+        };
+
+        return $http.post('postRestaurant', postData)
+            .then(getPostComplete)
+            .catch(getPostFailed);
+
+        function getPostComplete(response) {
+            return response.data;
+        }
+
+        function getPostFailed(error) {
+            console.log('XHR Failed for getAvengers.' + error.data);
+        }
+    }
+
 }

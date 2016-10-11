@@ -1,6 +1,3 @@
-/**
- * Created by root on 9/17/16.
- */
 angular.module('OrderTableApp')
         .controller('MainController', MainController);
 
@@ -20,6 +17,7 @@ function MainController(restaurantData, $scope)
         return restaurantData.getAllRestaurants()
             .then(function(data) {
                 $scope.restaurants = data;
+                console.log($scope.restaurants);
                 return $scope.restaurants;
             });
     }

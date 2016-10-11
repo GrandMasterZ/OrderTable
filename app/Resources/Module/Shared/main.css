@@ -23,3 +23,25 @@ body
     background: radial-gradient(#d7d7d7, #bbb8b6); /* Standard syntax */
     box-shadow: 0 0 10px 10px #333333;
 }
+
+.header_restaurant
+{
+    display: inline;
+    height: 50px;
+}
+
+.header_restaurant h3
+{
+    display: inline;
+}
+
+.header_restaurant p
+{
+    float:right;
+    display: inline;
+}
+
+.description
+{
+    font-size: smaller;
+}

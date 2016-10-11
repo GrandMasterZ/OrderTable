@@ -2,7 +2,7 @@
  * Created by root on 9/19/16.
  */
 angular.module('OrderTableApp')
-    .directive('popularInfo', popularInfo)
+    .directive('popularInfo', popularInfo);
 
 function popularInfo()
 {

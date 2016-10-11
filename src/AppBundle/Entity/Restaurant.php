@@ -55,6 +55,28 @@ class Restaurant
     private $ownerId;
 
     /**
+     * @ORM\Column(type="array")
+     */
+    private $images;
+
+    /**
+     * @return mixed
+     */
+    public function getImages()
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param mixed $images
+     */
+    public function setImages($images)
+    {
+        $this->images = $images;
+    }
+
+
+    /**
      * @return mixed
      */
     public function getId()

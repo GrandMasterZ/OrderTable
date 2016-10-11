@@ -32,9 +32,26 @@
                     <label for="Description">Description</label>
                     <textarea ng-model="description" class="form-control" rows="5" id="Description"></textarea>
                 </div>
+
+                <div class="col-md-4 col-md-offset-4 form-group form-element">
+                    <input class="form-control" ngf-keep="'distinct'" id="files" type="file" ngf-select ng-model="file" name="file" multiple accept="image/*" ngf-max-size="20MB" ngf-max-files="6">
+                </div>
+                <div class="col-md-4">
+
+                </div>
+                <div class="form-group form-element" ng-hide="file == null">
+                    <div class="row">
+                        <div ng-repeat="f in file  track by $index" class="thumb col-md-6">
+                            <img class="img-responsive img-thumbnail" ngf-src="f" alt="">
+                            <button type='button' class="btn-danger" ng-click="deleteImage(f)">Delete</button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="col-md-4 col-md-offset-4 form-group">
                     <button ng-click="submit()" class="btn btn-primary btn-lg"> Submit </button>
                 </div>
+
             </form>
         </div>
     </div>

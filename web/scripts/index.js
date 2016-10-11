@@ -1,7 +1,7 @@
 /**
  * Created by root on 9/17/16.
  */
-angular.module('OrderTableApp', ['ngRoute'])
+angular.module('OrderTableApp', ['ngRoute', 'ngFileUpload'])
         .config(function($routeProvider){
             $routeProvider
             .when('/', {
@@ -101,17 +101,26 @@ function popularInfo()
 angular.module('OrderTableApp')
     .controller('NewRestaurantController', NewRestaurantController);
 
-NewRestaurantController.$inject = ['$scope','restaurantData'];
+NewRestaurantController.$inject = ['$scope','restaurantData', '$location'];
 
-function NewRestaurantController($scope, restaurantData)
+function NewRestaurantController($scope, restaurantData, $location)
 {
     $scope.submit = function()
     {
-        restaurantData.addRestaurant($scope.title, $scope.phone, $scope.email, $scope.starts, $scope.closes, $scope.address, $scope.description)
-            .then(function(data){
-               console.log('sadasd');
+        restaurantData.addRestaurant($scope.title, $scope.phone, $scope.email, $scope.starts, $scope.closes, $scope.address, $scope.description, $scope.file)
+            .then(function (data) {
+                $location.url('/restaurant/' + data.data);
             });
     }
+
+
+    $scope.deleteImage = function (f)
+    {
+        console.log($scope.file);
+        var index = $scope.file.indexOf(f);
+        $scope.file.splice(index, 1);
+    };
+
 }
 angular.module('OrderTableApp')
     .controller('OneRestaurantController', OneRestaurantController);
@@ -182,9 +191,9 @@ function header()
 angular.module('OrderTableApp')
     .factory('restaurantData', restaurantData);
 
-restaurantData.$inject = ['$http'];
+restaurantData.$inject = ['$http', 'Upload'];
 
-function restaurantData($http) {
+function restaurantData($http, Upload) {
 
     var service = {
         getAllRestaurants: getAllRestaurants,
@@ -225,28 +234,24 @@ function restaurantData($http) {
         }
     }
 
-    function addRestaurant(title, phone, email, starts, closes, address, description)
+    function addRestaurant(title, phone, email, starts, closes, address, description, files)
     {
+        console.log(title);
         var postData = {
             Title: title,
             Description: description,
             Phone: phone,
             Email: email,
             Address: address,
-            WorkingHours: starts+closes
+            WorkingHours: starts.toString()+ '-' + closes.toString()
         };
 
-        return $http.post('postRestaurant', postData)
-            .then(getPostComplete)
-            .catch(getPostFailed);
-
-        function getPostComplete(response) {
-            return response.data;
-        }
-
-        function getPostFailed(error) {
-            console.log('XHR Failed for getAvengers.' + error.data);
-        }
+        return Upload.upload({
+            url: '/postRestaurant',
+            method: 'POST',
+            file: files,
+            data: postData
+        })
     }
 
 }

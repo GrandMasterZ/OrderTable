@@ -1,7 +1,7 @@
 /**
  * Created by root on 9/17/16.
  */
-angular.module('OrderTableApp', ['ngRoute'])
+angular.module('OrderTableApp', ['ngRoute', 'ngFileUpload'])
         .config(function($routeProvider){
             $routeProvider
             .when('/', {

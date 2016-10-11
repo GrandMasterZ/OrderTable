@@ -8,6 +8,7 @@
  */
 namespace AppBundle\Controller\Api;
 
+use AppBundle\Entity\Image;
 use AppBundle\Entity\Restaurant;
 use AppBundle\Mapper\RestaurantMapper;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -44,21 +45,28 @@ class RestaurantController extends FOSRestController
      */
     public function postRestaurantAction(Request $request)
     {
+        $meta = $_POST;
         $user = $this->getUser();
-        $data = json_decode($request->getContent(), true);
         $restaurant = new Restaurant();
-        $restaurant->setAddress($data["Address"]);
-        $restaurant->setDescription($data["Description"]);
-        $restaurant->setPhoneNumber($data["Phone"]);
-        $restaurant->setTitle($data["Title"]);
-        $restaurant->setWorkingHours($data["WorkingHours"]);
+        $restaurant->setAddress($meta["Address"]);
+        $restaurant->setDescription($meta["Description"]);
+        $restaurant->setPhoneNumber($meta["Phone"]);
+        $restaurant->setTitle($meta["Title"]);
+        $restaurant->setWorkingHours($meta["WorkingHours"]);
         $restaurant->setOwnerId($user);
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($restaurant);
         $em->flush();
+        $path = '/root/Desktop/OrderTable/web/images/' . $restaurant->getId();
+        $index = 0;
+        foreach ($_FILES['file']['tmp_name'] as $file)
+        {
+            move_uploaded_file($file, $path . $index . ".png");
+            $index++;
+        }
 
-        return new JsonResponse($data);
+        return new JsonResponse($restaurant->getId());
     }
 
     /**

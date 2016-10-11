@@ -32,6 +32,7 @@ gulp.task('assets', function() {
         dir.npm + 'font-awesome/css/font-awesome.min.css',
         dir.npm + 'angular-route/angular-route.min.js',
         dir.npm + 'jquery/dist/jquery.min.js',
+        dir.npm + 'ng-file-upload/dist/ng-file-upload.min.js'
 
         // Main JS file
     ])

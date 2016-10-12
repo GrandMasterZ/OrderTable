@@ -26,4 +26,6 @@ class RestaurantMapper
     public $ownerId;
 
     public $ownerUsername;
+
+    public $images;
 }

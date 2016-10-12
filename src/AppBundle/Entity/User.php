@@ -42,6 +42,23 @@ class User extends BaseUser
     /**
      * @return mixed
      */
+    public function getRestaurants()
+    {
+        return $this->restaurants;
+    }
+
+    /**
+     * @param mixed $restaurants
+     */
+    public function setRestaurants($restaurants)
+    {
+        $this->restaurants = $restaurants;
+    }
+
+
+    /**
+     * @return mixed
+     */
     public function getId()
     {
         return $this->id;

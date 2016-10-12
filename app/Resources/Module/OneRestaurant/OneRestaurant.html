@@ -1,11 +1,20 @@
 <header></header>
 <div class="container">
     <div class="jumbotron">
-        <h1> {{ restaurant.title }} </h1>
-        <h1> {{ restaurant.address }}</h1>
-        <h1> {{ restaurant.working_hours }}</h1>
-        <h1> {{ restaurant.phone_number }}</h1>
-        <h1> {{ restaurant.description }}</h1>
-        <h1> {{ restaurant.ownerUsername }}</h1>
+        <div class="row">
+            <div class="col-md-7">
+                <img class="col-md-12 img-responsive pull-left" ng-src="{{ restaurant.images[0] }}">
+            </div>
+            <div class="col-md-5">
+                <h1> {{ restaurant.title }}</h1>
+                <span class="glyphicon glyphicon-home glyphFont"> Address: {{ restaurant.address }} </span> <br> <br>
+                <span class="glyphicon glyphicon-phone glyphFont"> Phone: {{ restaurant.phone_number }} </span> <br> <br>
+                <span class="glyphicon glyphicon-envelope glyphFont"> Email {{ restaurant.ownerUsername }}</span>
+                <p> Working hours: {{ restaurant.working_hours }} </p>
+            </div>
+        </div>
+
+        <p> {{ restaurant.description }}</p>
+
     </div>
 </div>

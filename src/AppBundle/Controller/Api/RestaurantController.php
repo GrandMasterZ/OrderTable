@@ -55,16 +55,22 @@ class RestaurantController extends FOSRestController
         $restaurant->setWorkingHours($meta["WorkingHours"]);
         $restaurant->setOwnerId($user);
 
+        $pathArray = [];
+        $path = '/root/Desktop/OrderTable/web/images/';
+        ini_set("display_errors", 1);
+        foreach ($_FILES['file']['tmp_name'] as $file)
+        {
+            $rand = rand();
+            $name = md5($file);
+            move_uploaded_file($file, $path . $name . $rand . ".jpg");
+            $pathToSave = '/images/' . $name . $rand . ".jpg";
+            array_push($pathArray, $pathToSave);
+        }
+        $restaurant->setImages($pathArray);
         $em = $this->getDoctrine()->getManager();
         $em->persist($restaurant);
         $em->flush();
-        $path = '/root/Desktop/OrderTable/web/images/' . $restaurant->getId();
-        $index = 0;
-        foreach ($_FILES['file']['tmp_name'] as $file)
-        {
-            move_uploaded_file($file, $path . $index . ".png");
-            $index++;
-        }
+
 
         return new JsonResponse($restaurant->getId());
     }
@@ -90,6 +96,7 @@ class RestaurantController extends FOSRestController
             $mappedRestaurant->title = $restaurant->getTitle();
             $mappedRestaurant->working_hours = $restaurant->getWorkingHours();
             $mappedRestaurant->ownerUsername = $restaurant->getOwnerId()->getName();
+            $mappedRestaurant->images = $restaurant->getImages();
 
             array_push($restaurantList, $mappedRestaurant);
         }
@@ -115,7 +122,8 @@ class RestaurantController extends FOSRestController
         $mappedRestaurant->phone_number = $restaurant->getPhoneNumber();
         $mappedRestaurant->title = $restaurant->getTitle();
         $mappedRestaurant->working_hours = $restaurant->getWorkingHours();
-        $mappedRestaurant->ownerUsername = $restaurant->getOwnerId()->getName();
+        $mappedRestaurant->ownerUsername = $restaurant->getOwnerId()->getEmail();
+        $mappedRestaurant->images = $restaurant->getImages();
 
         return new JsonResponse($mappedRestaurant);
     }

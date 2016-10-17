@@ -3,7 +3,10 @@
     <div class="jumbotron">
         <div class="row">
             <div class="col-md-7">
-                <img class="col-md-12 img-responsive pull-left" ng-src="{{ restaurant.images[0] }}">
+                <img style="padding:0px; margin-bottom:15px;" class="col-md-12 img-responsive img-thumbnail pull-left mainImage" ng-src="{{ restaurant.images[0] }}">
+                <div style="padding-left: 0px;" class="col-md-3" ng-repeat="image in restaurant.images" ng-if="$index > 0">
+                    <img class="img-thumbnail imagebelow pull-left" ng-src="{{image}}">
+                </div>
             </div>
             <div class="col-md-5">
                 <h1> {{ restaurant.title }}</h1>

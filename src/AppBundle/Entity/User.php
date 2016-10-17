@@ -34,7 +34,7 @@ class User extends BaseUser
     private $surname;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Restaurant", inversedBy="ownerId")
+     * @ORM\ManyToOne(targetEntity="Restaurant")
      * @ORM\JoinColumn(name="restaurant_id", referencedColumnName="id")
      */
     private $restaurants;

@@ -1,12 +1,13 @@
 <div class="col-sm-6 col-md-4">
     <div class="thumbnail">
-        <img ng-src="{{ restaurant.images[0] }}" alt="...">
+        <img style="object-fit: contain; height: 300px;" class="imageMainView" ng-src="{{ restaurant.images[0] }}" alt="...">
         <div class="caption">
             <div class="header_restaurant">
                 <h3> {{ restaurant.title }} </h3>
                 <p> Works: {{ restaurant.working_hours }}</p>
             </div>
-            <p class="description"> {{ restaurant.description }} </p>
+            <hr>
+            <p class="description"> {{ restaurant.description | limitTo:40 }} </p>
             <div class="btn-group btn-group-justified">
                 <a href="/#/restaurantOrder/{{ restaurant.id }}" class="btn btn-primary">Order!</a>
                 <a href="/#/restaurant/{{ restaurant.id }}" class="btn btn">More info</a>

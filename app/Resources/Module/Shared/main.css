@@ -44,9 +44,33 @@ body
 .description
 {
     font-size: smaller;
+    height: 50px;
 }
 
 .glyphFont
 {
     font-size: large;
+}
+
+.imagebelow
+{
+    height: 100px;
+    object-fit: contain;
+}
+
+.mainImage
+{
+    height:300px;
+    object-fit: contain;
+}
+
+.imageMainView
+{
+    height: 40px;
+}
+
+.imgForm
+{
+    height:50px;
+    object-fit: contain;
 }

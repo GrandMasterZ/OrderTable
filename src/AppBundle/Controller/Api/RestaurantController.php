@@ -57,7 +57,6 @@ class RestaurantController extends FOSRestController
 
         $pathArray = [];
         $path = '/root/Desktop/OrderTable/web/images/';
-        ini_set("display_errors", 1);
         foreach ($_FILES['file']['tmp_name'] as $file)
         {
             $rand = rand();

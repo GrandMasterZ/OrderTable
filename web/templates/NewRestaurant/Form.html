@@ -3,56 +3,54 @@
     <div class="jumbotron">
         <h2 class="text-center"> New Restaurant </h2>
         <div class="row">
-            <form>
-                <div class="col-md-4 col-md-offset-4 form-group">
+            <form class="col-md-5 col-md-offset-4">
+                <div class="col-md-12 form-group">
                     <label for="title">Restaurant title</label>
                     <input ng-model="title" id="title" class="form-control" type="text">
                 </div>
-                <div class="col-md-4 col-md-offset-4 form-group">
+                <div class="col-md-12 form-group">
                     <label for="phone">Phone Number</label>
                     <input ng-model="phone" id="phone" class="form-control" type="text">
                 </div>
-                <div class="col-md-4 col-md-offset-4 form-group">
+                <div class="col-md-12 form-group">
                     <label for="email">Email</label>
                     <input ng-model="email" id="email" class="form-control" type="email">
                 </div>
-                <div class="col-md-2 col-md-offset-4 form-group">
+                <div class="col-md-6 form-group">
                     <label for="starts">Starts at</label>
                     <input ng-model="starts" id="starts" class="form-control" type="number">
                 </div>
-                <div class="col-md-2 form-group">
+                <div class="col-md-6 form-group">
                     <label for="close">Closes at</label>
                     <input ng-model="closes" id="close" class="form-control" type="number">
                 </div>
-                <div class="col-md-4 col-md-offset-4 form-group">
+                <div class="col-md-12 form-group">
                     <label for="address">Address</label>
                     <input ng-model="address" id="address" class="form-control" type="text">
                 </div>
-                <div class="col-md-4 col-md-offset-4 form-group">
+                <div class="col-md-12 form-group">
                     <label for="Description">Description</label>
                     <textarea ng-model="description" class="form-control" rows="5" id="Description"></textarea>
                 </div>
 
-                <div class="col-md-4 col-md-offset-4 form-group form-element">
+                <div class="col-md-12 form-group form-element">
                     <input class="form-control" ngf-keep="'distinct'" id="files" type="file" ngf-select ng-model="file" name="file" multiple accept="image/*" ngf-max-size="20MB" ngf-max-files="6">
                 </div>
-                <div class="col-md-4">
 
-                </div>
-                <div class="form-group form-element" ng-hide="file == null">
-                    <div class="row">
-                        <div ng-repeat="f in file  track by $index" class="thumb col-md-6">
-                            <img class="img-responsive img-thumbnail" ngf-src="f" alt="">
-                            <button type='button' class="btn-danger" ng-click="deleteImage(f)">Delete</button>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="col-md-4 col-md-offset-4 form-group">
+                <div class="col-md-12 form-group">
                     <button ng-click="submit()" class="btn btn-primary btn-lg"> Submit </button>
                 </div>
 
             </form>
+            <div class="form-group form-element" ng-hide="file == null">
+                <div class="row">
+                    <div ng-repeat="f in file  track by $index" class="thumbnail col-md-4">
+                        <img style="height: 150px; object-fit: contain;" class="img-responsive img-thumbnail" ngf-src="f" alt="">
+                        <button type='button' class="btn-danger col-md-12" ng-click="deleteImage(f)">Delete</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

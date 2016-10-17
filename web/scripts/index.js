@@ -25,6 +25,32 @@ angular.module('OrderTableApp', ['ngRoute', 'ngFileUpload'])
                 templateUrl: 'templates/OneRestaurant/OneRestaurant.html'
             })
         });
+/**
+ * Created by root on 9/19/16.
+ */
+angular.module('OrderTableApp')
+    .controller('PopularController', PopularController);
+
+PopularController.$inject = ['$scope'];
+
+function PopularController($scope)
+{
+    $scope.hello = 'Hello!';
+}
+/**
+ * Created by root on 9/19/16.
+ */
+angular.module('OrderTableApp')
+    .directive('popularInfo', popularInfo);
+
+function popularInfo()
+{
+    var directive = {
+        templateUrl: 'templates/MostPopular/Popular.html',
+    };
+
+    return directive;
+}
 angular.module('OrderTableApp')
         .controller('MainController', MainController);
 
@@ -65,32 +91,6 @@ function restaurantInfo()
 
     var directive = {
         templateUrl: url,
-    };
-
-    return directive;
-}
-/**
- * Created by root on 9/19/16.
- */
-angular.module('OrderTableApp')
-    .controller('PopularController', PopularController);
-
-PopularController.$inject = ['$scope'];
-
-function PopularController($scope)
-{
-    $scope.hello = 'Hello!';
-}
-/**
- * Created by root on 9/19/16.
- */
-angular.module('OrderTableApp')
-    .directive('popularInfo', popularInfo);
-
-function popularInfo()
-{
-    var directive = {
-        templateUrl: 'templates/MostPopular/Popular.html',
     };
 
     return directive;

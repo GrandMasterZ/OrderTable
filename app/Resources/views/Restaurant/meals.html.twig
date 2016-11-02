@@ -16,6 +16,9 @@
                     {{ form_end(form) }}
                 </div>
                 <div class="col-md-9">
+                    <div class="count">
+                        Total meals: {{ mealsPagination.getTotalItemCount }}
+                    </div>
                     <h2> Meal list </h2>
                     <table class="table">
                         <thead>
@@ -25,7 +28,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for meal in meals %}
+                        {% for meal in mealsPagination %}
                             <tr>
                                 <td>{{ meal.title }}</td>
                                 <td>{{ meal.price }}</td>
@@ -33,6 +36,9 @@
                         {% endfor %}
                         </tbody>
                     </table>
+                    <div class="navigation">
+                        {{ knp_pagination_render(mealsPagination) }}
+                    </div>
                 </div>
             </div>
         </div>

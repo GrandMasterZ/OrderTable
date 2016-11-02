@@ -61,6 +61,9 @@ class RestaurantController extends Controller
 
             $mealRepository = $doctrine->getRepository('AppBundle:Meal');
             $meals = $mealRepository->findAll();
+            $em    = $this->get('doctrine.orm.entity_manager');
+            $dql   = "SELECT a FROM AppBundle:Meal a";
+            $query = $em->createQuery($dql);
 
             $meal = new Meal();
             $meal->setRestaurant($restaurant);
@@ -80,9 +83,16 @@ class RestaurantController extends Controller
                 $em->flush();
             }
 
+            $paginator  = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1)/*page number*/,
+                10/*limit per page*/
+            );
+
             return $this->render('Restaurant/meals.html.twig', array(
                 'form' => $form->createView(),
-                'meals' => $meals
+                'mealsPagination' => $pagination
             ));
         }
 

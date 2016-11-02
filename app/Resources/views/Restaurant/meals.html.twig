@@ -1,0 +1,41 @@
+{% extends 'base2.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <div class="row">
+                <h2> Meal form </h2>
+                <div class="col-md-3">
+                    {{ form_start(form) }}
+                    {{ form_widget(form.title, { 'attr': { 'class': 'form-control' } }) }}
+                    <br>
+                    {{ form_widget(form.price, { 'attr': { 'class': 'form-control' } }) }}
+                    <br>
+                    {{ form_widget(form.save, { 'attr': { 'class': 'btn btn-primary' } }) }}
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-md-9">
+                    <h2> Meal list </h2>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Price</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for meal in meals %}
+                            <tr>
+                                <td>{{ meal.title }}</td>
+                                <td>{{ meal.price }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

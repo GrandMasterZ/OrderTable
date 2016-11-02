@@ -36,7 +36,7 @@ class Restaurant
     /**
      * @ORM\Column(type="string")
      */
-    private $working_hours;
+    public $working_hours;
 
     /**
      * @ORM\Column(type="string")

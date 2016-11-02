@@ -56,7 +56,7 @@ class RestaurantController extends FOSRestController
         $restaurant->setOwnerId($user);
 
         $pathArray = [];
-        $path = '/root/Desktop/OrderTable/web/images/';
+        $path = 'C:/Users/asdasd/Desktop/OrderTable/web/images/';
         foreach ($_FILES['file']['tmp_name'] as $file)
         {
             $rand = rand();

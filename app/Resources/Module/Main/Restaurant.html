@@ -9,7 +9,7 @@
             <hr>
             <p class="description"> {{ restaurant.description | limitTo:40 }} </p>
             <div class="btn-group btn-group-justified">
-                <a href="/#/restaurantOrder/{{ restaurant.id }}" class="btn btn-primary">Order!</a>
+                <a href="/order/{{ restaurant.id }}" class="btn btn-primary">Order!</a>
                 <a href="/#/restaurant/{{ restaurant.id }}" class="btn btn">More info</a>
             </div>
         </div>

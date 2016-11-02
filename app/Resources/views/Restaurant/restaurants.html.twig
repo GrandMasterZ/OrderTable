@@ -1,0 +1,32 @@
+{% extends 'base2.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <h1> Your restaurants </h1>
+            <div class="row">
+                {% for restaurant in restaurants %}
+                    <div class="col-sm-6 col-md-4">
+                        <div class="thumbnail">
+                            <img style="object-fit: contain; height: 300px;" class="imageMainView" src="{{ restaurant.images[0] }}" alt="...">
+                            <div class="caption">
+                                <div class="header_restaurant">
+                                    <h3> {{ restaurant.title }} </h3>
+                                    <p> Works: {{ restaurant.working_hours }}</p>
+                                </div>
+                                <hr>
+                                <p class="description"> {{ restaurant.description }} </p>
+                                <div class="btn-group btn-group-justified">
+                                    <a href="/addTables/{{ restaurant.id }}" class="btn btn-primary">Add tables</a>
+                                    <a href="/addMeals/{{ restaurant.id }}" class="btn btn-primary">Add meals</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

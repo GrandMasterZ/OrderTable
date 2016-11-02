@@ -21,21 +21,87 @@ class Meal
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="string")
      */
-    public $title;
+    private $title;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
      */
-    public $price;
+    private $price;
 
     /**
      * @ORM\ManyToOne(targetEntity="Restaurant", inversedBy="meals")
      * @ORM\JoinColumn(name="restaurant_id", referencedColumnName="id")
      */
-    public $restaurant;
+    private $restaurant;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param mixed $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param mixed $price
+     */
+    public function setPrice($price)
+    {
+        $this->price = $price;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRestaurant()
+    {
+        return $this->restaurant;
+    }
+
+    /**
+     * @param mixed $restaurant
+     */
+    public function setRestaurant($restaurant)
+    {
+        $this->restaurant = $restaurant;
+    }
+
+
 }

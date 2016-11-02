@@ -39,10 +39,28 @@ class OrderController extends Controller
             $doctrine = $this->getDoctrine();
             $restaurandId = $request->attributes->get('restaurandId');
             $restaurantRepository = $doctrine->getRepository('AppBundle:Restaurant');
+            $mealRepository = $doctrine->getRepository('AppBundle:Meal');
+            $tableRepository = $doctrine->getRepository('AppBundle:Table');
+
+            $meals = $mealRepository->findAll();
+            $tables = $tableRepository->findAll();
+
+            $em    = $this->get('doctrine.orm.entity_manager');
+            $dql   = "SELECT a FROM AppBundle:Meal a";
+            $query = $em->createQuery($dql);
+
+            $paginator  = $this->get('knp_paginator');
+            $paginationMeals = $paginator->paginate(
+                $query, /* query NOT result */
+                $request->query->getInt('page', 1)/*page number*/,
+                10/*limit per page*/
+            );
 
             $restaurant = $restaurantRepository->find($restaurandId);
             return $this->render('Order/order.html.twig', array(
-                'restaurant' => $restaurant
+                'restaurant' => $restaurant,
+                'meals' => $paginationMeals,
+                'tables' => $tables
             ));
         }
 

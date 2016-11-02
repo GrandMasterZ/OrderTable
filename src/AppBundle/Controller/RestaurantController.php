@@ -9,6 +9,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Meal;
+use AppBundle\Entity\Table;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,8 +60,6 @@ class RestaurantController extends Controller
             $restaurantRepository = $doctrine->getRepository('AppBundle:Restaurant');
             $restaurant = $restaurantRepository->find($restaurantId);
 
-            $mealRepository = $doctrine->getRepository('AppBundle:Meal');
-            $meals = $mealRepository->findAll();
             $em    = $this->get('doctrine.orm.entity_manager');
             $dql   = "SELECT a FROM AppBundle:Meal a";
             $query = $em->createQuery($dql);
@@ -76,13 +75,6 @@ class RestaurantController extends Controller
 
             $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
-                $meal = $form->getData();
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($meal);
-                $em->flush();
-            }
-
             $paginator  = $this->get('knp_paginator');
             $pagination = $paginator->paginate(
                 $query, /* query NOT result */
@@ -90,9 +82,68 @@ class RestaurantController extends Controller
                 10/*limit per page*/
             );
 
+            if ($form->isSubmitted() && $form->isValid()) {
+                $meal = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($meal);
+                $em->flush();
+
+                return $this->render('Restaurant/meals.html.twig', array(
+                    'form' => $form->createView(),
+                    'mealsPagination' => $pagination
+                ));
+            }
+
+
             return $this->render('Restaurant/meals.html.twig', array(
                 'form' => $form->createView(),
                 'mealsPagination' => $pagination
+            ));
+        }
+
+        return $this->redirect("/login");
+    }
+
+    /**
+     * @Route("/addTables/{restaurantId}", name="addTables")
+     */
+    public function addTablesAction(Request $request)
+    {
+        $user = $this->getUser();
+        $doctrine = $this->getDoctrine();
+
+        if($user != null) {
+            $restaurantId = $request->attributes->get('restaurantId');
+            $restaurantRepository = $doctrine->getRepository('AppBundle:Restaurant');
+            $restaurant = $restaurantRepository->find($restaurantId);
+
+            $tableRepository = $doctrine->getRepository('AppBundle:Table');
+
+            $table = new Table();
+            $table->setRestaurant($restaurant);
+
+            $form = $this->createFormBuilder($table)
+                ->add('seats', TextType::class)
+                ->add('save', SubmitType::class, array('label' => 'Pridėti patiekalą'))
+                ->getForm();
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $table = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($table);
+                $em->flush();
+                $tables = $tableRepository->findAll();
+                return $this->render('Restaurant/tables.html.twig', array(
+                    'form' => $form->createView(),
+                    'tables' => $tables
+                ));
+            }
+
+            return $this->render('Restaurant/tables.html.twig', array(
+                'form' => $form->createView(),
+                'tables' => $tables
             ));
         }
 

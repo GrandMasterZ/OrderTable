@@ -21,16 +21,66 @@ class Table
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    public $id;
+    private $id;
 
     /**
      * @ORM\Column(type="integer")
      */
-    public $seats;
+    private $seats;
 
     /**
      * @ORM\ManyToOne(targetEntity="Restaurant", inversedBy="tables")
      * @ORM\JoinColumn(name="restaurant_id", referencedColumnName="id")
      */
-    public $restaurant;
+    private $restaurant;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSeats()
+    {
+        return $this->seats;
+    }
+
+    /**
+     * @param mixed $seats
+     */
+    public function setSeats($seats)
+    {
+        $this->seats = $seats;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRestaurant()
+    {
+        return $this->restaurant;
+    }
+
+    /**
+     * @param mixed $restaurant
+     */
+    public function setRestaurant($restaurant)
+    {
+        $this->restaurant = $restaurant;
+    }
+
+
 }

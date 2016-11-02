@@ -1,0 +1,38 @@
+{% extends 'base2.html.twig' %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="jumbotron">
+            <div class="row">
+                <h2> Table form </h2>
+                <div class="col-md-3">
+                    {{ form_start(form) }}
+                    {{ form_widget(form.seats, { 'attr': { 'class': 'form-control' } }) }}
+                    <br>
+                    <br>
+                    {{ form_widget(form.save, { 'attr': { 'class': 'btn btn-primary' } }) }}
+                    {{ form_end(form) }}
+                </div>
+                <div class="col-md-9">
+                    <h2> Tables list </h2>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Seats</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for table in tables %}
+                            <tr>
+                                <td>{{ table.seats }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

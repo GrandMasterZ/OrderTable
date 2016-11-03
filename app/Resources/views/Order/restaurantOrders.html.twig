@@ -10,10 +10,13 @@
                     <div class="well col-md-4">
                         {{ order.startTime | date("Y/m/d H:i") }}
                         {{ order.user.username }}
-                        {{ order.table.seats }}
+                        Table seats: {{ order.table.seats }}
+                        <h2> Meals </h2>
+                        <ul style="height: 100px;">
                         {% for meal in order.meals %}
-                            {{ meal.title }} - {{ meal.price }}
+                            <li> {{ meal.title }} - {{ meal.price }} </li>
                         {% endfor %}
+                        </ul>
                     </div>
                 {% endfor %}
             </div>

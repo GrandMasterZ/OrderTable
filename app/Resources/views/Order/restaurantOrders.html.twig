@@ -7,7 +7,14 @@
             <div class="row">
                 <h1> Your orders </h1>
                 {% for order in orders %}
-                    {{ order.start_time }}
+                    <div class="well col-md-4">
+                        {{ order.startTime | date("Y/m/d H:i") }}
+                        {{ order.user.username }}
+                        {{ order.table.seats }}
+                        {% for meal in order.meals %}
+                            {{ meal.title }} - {{ meal.price }}
+                        {% endfor %}
+                    </div>
                 {% endfor %}
             </div>
         </div>

@@ -77,9 +77,11 @@ class OrderController extends Controller
 
         $orderRepo = $doctrine->getRepository('AppBundle:Order');
 
-        $orders = $orderRepo->createQueryBuilder('o')
+        $query = $orderRepo->createQueryBuilder('o')
             ->where('o.restaurant =' . $restaurantId)
             ->getQuery();
+
+        $orders = $query->getResult();
 
         return $this->render('Order/restaurantOrders.html.twig', array(
             'orders' => $orders

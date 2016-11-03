@@ -7,34 +7,14 @@
             <h1> Order </h1>
             <div class="row">
                 <h2> Your are ordering table at "{{ restaurant.title }}" restaurant! </h2>
-                    {{ form_start(form) }}
-                    {{ form_widget(form)}}
-                    {{ form_end(form) }}
-                    <h2>Choose table</h2>
-                    {% for table in tables %}
-                        <h1> {{ table.seats }}</h1>
-                    {% endfor %}
+                {{ form_start(form) }}
+                <div class="col-md-4">
+                    {{ form_widget(form.table) }}
+                </div>
                 <div class="col-md-8">
-                    <h2> Choose meal </h2>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Price</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {% for meal in meals %}
-                            <tr>
-                                <td>{{ meal.title }}</td>
-                                <td>{{ meal.price }}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                    <div class="navigation">
-                        {{ knp_pagination_render(meals) }}
-                    </div>
+                    {{ form_widget(form.meals) }}
+                </div>
+                {{ form_end(form) }}
             </div>
         </div>
     </div>

@@ -8,13 +8,15 @@
 
 namespace AppBundle\Form;
 
+use Doctrine\ORM\Mapping\Entity;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class OrderType extends AbstractType
 {
@@ -24,10 +26,19 @@ class OrderType extends AbstractType
             ->add('table', EntityType::class, array(
                 'class' => 'AppBundle:Table',
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('u');
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.seats');
                 },
                 'choice_label' => 'seats',
             ))
+            ->add('meals', EntityType::class,array(
+                'class' => 'AppBundle:Meal',
+                'required' => false,
+                'property' => 'uniqueName',
+                'multiple' => true,
+                'expanded' => true
+            ))
+            ->add('start_time', DateTimeType::class)
             ->add('save', SubmitType::class, array('label' => 'Order'));
     }
 

@@ -31,40 +31,35 @@ class OrderController extends Controller
     }
 
     /**
-     * @Route("/order/{restaurandId}", name="order")
+     * @Route("/order/{restaurantId}", name="order")
      */
     public function orderAction(Request $request)
     {
         $user = $this->getUser();
+
         if($user != null)
         {
-            $doctrine = $this->getDoctrine();
-            $restaurandId = $request->attributes->get('restaurandId');
-            $restaurantRepository = $doctrine->getRepository('AppBundle:Restaurant');
-            $tableRepository = $doctrine->getRepository('AppBundle:Table');
-
+            $restaurantId = $request->attributes->get('restaurantId');
+            $restaurant = $this->get('app.restaurant')->getRestaurantById($restaurantId);
             $order = new Order();
-            $tables = $tableRepository->findAll();
-
+            $order->setRestaurant($restaurant);
+            $order->setUser($user);
             $form = $this->createForm(OrderType::class, $order);
             $form->handleRequest($request);
 
-            $em    = $this->get('doctrine.orm.entity_manager');
-            $dql   = "SELECT a FROM AppBundle:Meal a";
-            $query = $em->createQuery($dql);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $order = $form->getData();
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($order);
+                $em->flush();
+                return $this->render('Order/order.html.twig', array(
+                    'restaurant' => $restaurant,
+                    'form' => $form->createView()
+                ));
+            }
 
-            $paginator  = $this->get('knp_paginator');
-            $paginationMeals = $paginator->paginate(
-                $query, /* query NOT result */
-                $request->query->getInt('page', 1)/*page number*/,
-                10/*limit per page*/
-            );
-
-            $restaurant = $restaurantRepository->find($restaurandId);
             return $this->render('Order/order.html.twig', array(
                 'restaurant' => $restaurant,
-                'meals' => $paginationMeals,
-                'tables' => $tables,
                 'form' => $form->createView()
             ));
         }

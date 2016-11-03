@@ -103,5 +103,8 @@ class Meal
         $this->restaurant = $restaurant;
     }
 
-
+    public function getUniqueName()
+    {
+        return sprintf('%s - %s', $this->title, $this->price);
+    }
 }

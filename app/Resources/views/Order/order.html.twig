@@ -8,14 +8,19 @@
             <div class="row">
                 <h2> Your are ordering table at "{{ restaurant.title }}" restaurant! </h2>
                 {{ form_start(form) }}
-                <div class="col-md-4">
-                    {{ form_widget(form.table) }}
+                <div class="col-md-2">
+                    <label>Seats</label>
+                    {{ form_widget(form.table, {'attr': {'class':'form-control'}}) }}
+                    <label>Order time</label>
+                    {{ form_widget(form.start_time) }}
                 </div>
-                <div class="col-md-8">
+                <div class="col-md-10">
                     {{ form_widget(form.meals) }}
                 </div>
-                {{ form_end(form) }}
             </div>
+            <br>
+            {{ form_widget(form.save, {'attr':{'class':'btn btn-primary col-md-4'}}) }}
+            {{ form_end(form) }}
         </div>
     </div>
 

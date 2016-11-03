@@ -66,4 +66,23 @@ class OrderController extends Controller
 
         return $this->redirect("/login");
     }
+
+    /**
+     * @Route("/restaurantOrders/{restaurantId}", name="orderCheck")
+     */
+    public function restaurantOrdersAction(Request $request)
+    {
+        $restaurantId = $request->attributes->get('restaurantId');
+        $doctrine = $this->getDoctrine();
+
+        $orderRepo = $doctrine->getRepository('AppBundle:Order');
+
+        $orders = $orderRepo->createQueryBuilder('o')
+            ->where('o.restaurant =' . $restaurantId)
+            ->getQuery();
+
+        return $this->render('Order/restaurantOrders.html.twig', array(
+            'orders' => $orders
+        ));
+    }
 }

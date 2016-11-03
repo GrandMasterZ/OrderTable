@@ -9,4 +9,8 @@ services:
         tags:
             - { name: form.type, alias: app_user_registration }
 
+    app.restaurant:
+        class: AppBundle\Service\RestaurantService
+        arguments: [ @doctrine.orm.entity_manager ]
+
 

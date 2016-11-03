@@ -8,9 +8,9 @@
                 <h2> Meal form </h2>
                 <div class="col-md-3">
                     {{ form_start(form) }}
-                    {{ form_widget(form.title, { 'attr': { 'class': 'form-control' } }) }}
+                    {{ form_widget(form.title, { 'attr': { 'class': 'form-control', 'placeholder' : 'Enter title' } }) }}
                     <br>
-                    {{ form_widget(form.price, { 'attr': { 'class': 'form-control' } }) }}
+                    {{ form_widget(form.price, { 'attr': { 'class': 'form-control', 'placeholder' : 'Enter price' } }) }}
                     <br>
                     {{ form_widget(form.save, { 'attr': { 'class': 'btn btn-primary' } }) }}
                     {{ form_end(form) }}

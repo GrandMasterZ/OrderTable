@@ -16,6 +16,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Response;
+use AppBundle\Form\MealType;
+use AppBundle\Form\TableType;
 
 
 class RestaurantController extends Controller
@@ -29,15 +31,7 @@ class RestaurantController extends Controller
 
         if($user != null)
         {
-            $doctrine = $this->getDoctrine();
-
-            $restaurantRepository = $doctrine->getRepository('AppBundle:Restaurant');
-
-            $query = $restaurantRepository->createQueryBuilder('p')
-                ->where('p.ownerId = ' . $user->getId())
-                ->getQuery();
-
-            $restaurants = $query->getResult();
+            $restaurants = $this->get('app.restaurant')->getRestaurantByUserId($user->getId());
 
             return $this->render('Restaurant/restaurants.html.twig', array(
                 'restaurants' => $restaurants
@@ -53,25 +47,18 @@ class RestaurantController extends Controller
     public function addMealsAction(Request $request)
     {
         $user = $this->getUser();
-        $doctrine = $this->getDoctrine();
+
         if($user != null)
         {
             $restaurantId = $request->attributes->get('restaurantId');
-            $restaurantRepository = $doctrine->getRepository('AppBundle:Restaurant');
-            $restaurant = $restaurantRepository->find($restaurantId);
+            $restaurant = $this->get('app.restaurant')->getRestaurantById($restaurantId);
 
-            $em    = $this->get('doctrine.orm.entity_manager');
-            $dql   = "SELECT a FROM AppBundle:Meal a";
-            $query = $em->createQuery($dql);
+            $query = $this->get('app.restaurant')->createQuery();
 
             $meal = new Meal();
             $meal->setRestaurant($restaurant);
 
-            $form = $this->createFormBuilder($meal)
-                ->add('title', TextType::class)
-                ->add('price', TextType::class)
-                ->add('save', SubmitType::class, array('label' => 'Pridėti patiekalą'))
-                ->getForm();
+            $form = $this->createForm(MealType::class, $meal);
 
             $form->handleRequest($request);
 
@@ -87,6 +74,12 @@ class RestaurantController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($meal);
                 $em->flush();
+
+                $pagination = $paginator->paginate(
+                    $query,
+                    $request->query->getInt('page', 1),
+                    10
+                );
 
                 return $this->render('Restaurant/meals.html.twig', array(
                     'form' => $form->createView(),
@@ -113,19 +106,17 @@ class RestaurantController extends Controller
         $doctrine = $this->getDoctrine();
 
         if($user != null) {
+
             $restaurantId = $request->attributes->get('restaurantId');
-            $restaurantRepository = $doctrine->getRepository('AppBundle:Restaurant');
-            $restaurant = $restaurantRepository->find($restaurantId);
+            $restaurant = $this->get('app.restaurant')->getRestaurantById($restaurantId);
 
             $tableRepository = $doctrine->getRepository('AppBundle:Table');
+            $tables = $tableRepository->findAll();
 
             $table = new Table();
             $table->setRestaurant($restaurant);
 
-            $form = $this->createFormBuilder($table)
-                ->add('seats', TextType::class)
-                ->add('save', SubmitType::class, array('label' => 'Pridėti patiekalą'))
-                ->getForm();
+            $form = $this->createForm(TableType::class, $table);
 
             $form->handleRequest($request);
 

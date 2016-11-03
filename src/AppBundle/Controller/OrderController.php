@@ -11,6 +11,8 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Form\OrderType;
+use AppBundle\Entity\Order;
 
 class OrderController extends Controller
 {
@@ -39,11 +41,13 @@ class OrderController extends Controller
             $doctrine = $this->getDoctrine();
             $restaurandId = $request->attributes->get('restaurandId');
             $restaurantRepository = $doctrine->getRepository('AppBundle:Restaurant');
-            $mealRepository = $doctrine->getRepository('AppBundle:Meal');
             $tableRepository = $doctrine->getRepository('AppBundle:Table');
 
-            $meals = $mealRepository->findAll();
+            $order = new Order();
             $tables = $tableRepository->findAll();
+
+            $form = $this->createForm(OrderType::class, $order);
+            $form->handleRequest($request);
 
             $em    = $this->get('doctrine.orm.entity_manager');
             $dql   = "SELECT a FROM AppBundle:Meal a";
@@ -60,7 +64,8 @@ class OrderController extends Controller
             return $this->render('Order/order.html.twig', array(
                 'restaurant' => $restaurant,
                 'meals' => $paginationMeals,
-                'tables' => $tables
+                'tables' => $tables,
+                'form' => $form->createView()
             ));
         }
 

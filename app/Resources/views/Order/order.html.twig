@@ -7,12 +7,13 @@
             <h1> Order </h1>
             <div class="row">
                 <h2> Your are ordering table at "{{ restaurant.title }}" restaurant! </h2>
-                <div class="col-md-4">
+                    {{ form_start(form) }}
+                    {{ form_widget(form)}}
+                    {{ form_end(form) }}
                     <h2>Choose table</h2>
                     {% for table in tables %}
                         <h1> {{ table.seats }}</h1>
                     {% endfor %}
-                </div>
                 <div class="col-md-8">
                     <h2> Choose meal </h2>
                     <table class="table">

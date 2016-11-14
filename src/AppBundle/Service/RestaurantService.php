@@ -26,9 +26,9 @@ class RestaurantService
         return $restaurant;
     }
 
-    public function createQuery()
+    public function createQuery($restaurantId)
      {
-        $dql = "SELECT a FROM AppBundle:Meal a";
+        $dql = "SELECT a FROM AppBundle:Meal a WHERE a.restaurant =" .$restaurantId;
         $query = $this->em->createQuery($dql);
 
         return $query;

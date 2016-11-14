@@ -44,7 +44,9 @@ class OrderController extends Controller
             $order = new Order();
             $order->setRestaurant($restaurant);
             $order->setUser($user);
-            $form = $this->createForm(OrderType::class, $order);
+            $form = $this->createForm(OrderType::class, $order, array(
+                'restaurantId' => $restaurantId,
+            ));
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -52,10 +54,7 @@ class OrderController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($order);
                 $em->flush();
-                return $this->render('Order/order.html.twig', array(
-                    'restaurant' => $restaurant,
-                    'form' => $form->createView()
-                ));
+                return $this->redirect('/');
             }
 
             return $this->render('Order/order.html.twig', array(

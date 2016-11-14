@@ -22,12 +22,14 @@ class OrderType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        var_dump($options['restaurantId']);
         $builder
             ->add('table', EntityType::class, array(
                 'class' => 'AppBundle:Table',
-                'query_builder' => function (EntityRepository $er) {
+                'query_builder' => function (EntityRepository $er) use ($options) {
                     return $er->createQueryBuilder('u')
-                        ->orderBy('u.seats');
+                        ->orderBy('u.seats')
+                        ->where('u.restaurant ='. $options['restaurantId']);
                 },
                 'choice_label' => 'seats',
             ))
@@ -36,7 +38,11 @@ class OrderType extends AbstractType
                 'required' => false,
                 'property' => 'uniqueName',
                 'multiple' => true,
-                'expanded' => true
+                'expanded' => true,
+                'query_builder' => function (EntityRepository $er) use ($options) {
+                    return $er->createQueryBuilder('u')
+                        ->where('u.restaurant ='. $options['restaurantId']);
+                },
             ))
             ->add('start_time', DateTimeType::class)
             ->add('save', SubmitType::class, array('label' => 'Order'));
@@ -45,7 +51,8 @@ class OrderType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Order'
+            'data_class' => 'AppBundle\Entity\Order',
+            'restaurantId' => null
         ));
     }
 }

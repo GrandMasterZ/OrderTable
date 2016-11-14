@@ -53,7 +53,7 @@ class RestaurantController extends Controller
             $restaurantId = $request->attributes->get('restaurantId');
             $restaurant = $this->get('app.restaurant')->getRestaurantById($restaurantId);
 
-            $query = $this->get('app.restaurant')->createQuery();
+            $query = $this->get('app.restaurant')->createQuery($restaurantId);
 
             $meal = new Meal();
             $meal->setRestaurant($restaurant);
@@ -111,7 +111,12 @@ class RestaurantController extends Controller
             $restaurant = $this->get('app.restaurant')->getRestaurantById($restaurantId);
 
             $tableRepository = $doctrine->getRepository('AppBundle:Table');
-            $tables = $tableRepository->findAll();
+
+            $query = $tableRepository->createQueryBuilder('o')
+                ->where('o.restaurant =' . $restaurantId)
+                ->getQuery();
+
+            $tables = $query->getResult();
 
             $table = new Table();
             $table->setRestaurant($restaurant);
@@ -125,7 +130,13 @@ class RestaurantController extends Controller
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($table);
                 $em->flush();
-                $tables = $tableRepository->findAll();
+
+                $query = $tableRepository->createQueryBuilder('o')
+                    ->where('o.restaurant =' . $restaurantId)
+                    ->getQuery();
+
+                $tables = $query->getResult();
+
                 return $this->render('Restaurant/tables.html.twig', array(
                     'form' => $form->createView(),
                     'tables' => $tables

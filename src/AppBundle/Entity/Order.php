@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -41,6 +42,10 @@ class Order
     private $table;
 
     /**
+     * @Assert\Count(
+     *      min = "1",
+     *      minMessage = "You must specify at least one meal"
+     * )
      * @ORM\ManyToMany(targetEntity="Meal")
      * @ORM\JoinTable(name="meals_orders")
      */

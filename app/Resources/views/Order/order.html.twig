@@ -4,7 +4,14 @@
 
     <div class="container">
         <div class="jumbotron">
+            {% if form_errors(form.meals) %}
+                <div class="alert alert-danger">
+                    {{ form_errors(form.meals) }}
+                </div>
+            {% endif %}
             <h1> Order </h1>
+            {% if form_errors(form.meals) %}
+            {% endif %}
             <div class="row">
                 <h2> Your are ordering table at "{{ restaurant.title }}" restaurant! </h2>
                 {{ form_start(form) }}

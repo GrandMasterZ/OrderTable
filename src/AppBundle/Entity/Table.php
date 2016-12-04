@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -25,6 +26,13 @@ class Table
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(
+     *     value = 0,
+     *     message = "Seats should be greater than {{ compared_value }}"
+     * )
+     * @Assert\NotNull(
+     *     message = "Please seats"
+     * )
      */
     private $seats;
 

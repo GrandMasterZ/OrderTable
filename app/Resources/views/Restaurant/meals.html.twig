@@ -6,6 +6,18 @@
         <div class="jumbotron">
             <div class="row">
                 <h2> Meal form </h2>
+                {% if form_errors(form.title) %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(form.title) }}
+                    </div>
+                {% endif %}
+
+                {% if form_errors(form.price) %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(form.price) }}
+                    </div>
+                {% endif %}
+
                 <div class="col-md-3">
                     {{ form_start(form) }}
                     {{ form_widget(form.title, { 'attr': { 'class': 'form-control', 'placeholder' : 'Enter title' } }) }}

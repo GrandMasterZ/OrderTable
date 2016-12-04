@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -25,11 +26,25 @@ class Meal
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\NotNull()
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 15,
+     *      minMessage = "Title must be at least {{ limit }} characters long",
+     *      maxMessage = "Title cannot be longer than {{ limit }} characters"
+     * )
      */
     private $title;
 
     /**
      * @ORM\Column(type="decimal", scale=2)
+     * @Assert\GreaterThan(
+     *     value = 0,
+     *     message = "Price should be greater than {{ compared_value }}"
+     * )
+     * @Assert\NotNull(
+     *     message = "Please enter price"
+     * )
      */
     private $price;
 

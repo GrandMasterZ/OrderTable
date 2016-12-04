@@ -42,6 +42,30 @@ class RestaurantController extends Controller
     }
 
     /**
+     * @Route("/mealGroup", name="mealGroup")
+     */
+    public function groupMealsAction(Request $request)
+    {
+        $sql = " 
+        SELECT meal_id,
+        title,
+               COUNT(order_id) AS Count
+          FROM meals_orders
+          LEFT JOIN meals ON meals_orders.meal_id = meals.id
+          GROUP BY meal_id
+    ";
+
+        $em = $this->getDoctrine()->getManager();
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        return $this->render('Restaurant/groupMeals.html.twig', array(
+            'groupedMeals' => $result
+        ));
+    }
+
+    /**
      * @Route("/addMeals/{restaurantId}", name="addMeals")
      */
     public function addMealsAction(Request $request)
